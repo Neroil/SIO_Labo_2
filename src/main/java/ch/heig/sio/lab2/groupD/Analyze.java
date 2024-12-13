@@ -74,7 +74,7 @@ public final class Analyze {
       try {
         TspData data = TspData.fromFile("data/" + file + ".dat");
 
-        System.out.println("\nProcessing dataset: " + file + ".dat (" + NUMBER_CITIES + " cities)");
+        System.out.println("\nProcessing dataset: " + file + ".dat (" + data.getNumberOfCities() + " cities)");
         Map<String, Statistics> stats = new LinkedHashMap<>();
         Map<String, Statistics> statsImproved = new LinkedHashMap<>();
 
