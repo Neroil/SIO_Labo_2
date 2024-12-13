@@ -48,31 +48,33 @@ public class Improvement2Opt implements ObservableTspImprovementHeuristic {
         long newTourLength = Long.MAX_VALUE;
         int bestFirstVertexFrom = 0;
         int bestSecondVertexFrom = 0;
+        int bestDist = Integer.MAX_VALUE;
 
         do {
+            bestDist = Integer.MAX_VALUE;
             oldTourLength = tourLength;
 
             //A faire jusqu'à que la distance n'a pas changé
             // i est le sommet de départ du premier arc de la 2-opt
             for (int i = 0; i < tourNbVertices; ++i) {
-                int bestDist = Integer.MAX_VALUE;
                 var firstVertexTo = (i + 1) % tourNbVertices;
                 var firstVertexDistance = tourData.getDistance(tourCopy[i], tourCopy[firstVertexTo]);
                 // j est le sommet de départ du deuxième arc de la 2-opt
                 for (int j = (i + 2) % tourNbVertices; j < tourNbVertices && j > i + 1; ++j) {
                     var secondVertexTo = (j + 1) % tourNbVertices;
-                    if(bestDist == Integer.MAX_VALUE){
-                        bestDist = tourData.getDistance(tourCopy[j], tourCopy[secondVertexTo]) + firstVertexDistance;
-                    }
+                    var currentDist = tourData.getDistance(tourCopy[j], tourCopy[secondVertexTo]) + firstVertexDistance;
                     var newDist = tourData.getDistance(tourCopy[i], tourCopy[j]) + tourData.getDistance(tourCopy[secondVertexTo], tourCopy[firstVertexTo]);
 
-                    if (newDist < bestDist) {
-                        System.out.println(newDist + ", " + bestDist);
-                        newTourLength = tourLength - bestDist + newDist;
-                        bestDist = newDist;
-                        System.out.println("newTourLength :" + newTourLength);
-                        bestFirstVertexFrom = i;
-                        bestSecondVertexFrom = j;
+                    if (newDist < currentDist) {
+                        System.out.println(newDist + ", " + currentDist);
+                        System.out.println();
+                        if(newDist < bestDist){
+                            bestFirstVertexFrom = i;
+                            bestSecondVertexFrom = j;
+                            newTourLength = tourLength - currentDist + newDist;
+                            bestDist = newDist;
+                            System.out.println("newTourLength :" + newTourLength);
+                        }
                     }
                 }
             }
@@ -105,14 +107,7 @@ public class Improvement2Opt implements ObservableTspImprovementHeuristic {
 
             observer.update(edges.iterator());
 
-//            for(int it = 0; it < bestSecondVertexFrom - (bestFirstVertexFrom + 1); it++){
-//                var mem = tourCopy[bestFirstVertexFrom + it + 1];
-//                tourCopy[bestFirstVertexFrom + it + 1] = tourCopy[bestSecondVertexFrom - it];
-//                tourCopy[bestSecondVertexFrom - it] = mem;
-//            }
-
         } while (oldTourLength != newTourLength || nbOfIteration > 0);
-
 
 
         return new TspTour(tourData, tourCopy, newTourLength);

@@ -4,14 +4,20 @@ import ch.heig.sio.lab2.display.HeuristicComboItem;
 import ch.heig.sio.lab2.display.ObservableTspConstructiveHeuristic;
 import ch.heig.sio.lab2.display.ObservableTspImprovementHeuristic;
 import ch.heig.sio.lab2.display.TspSolverGui;
+import ch.heig.sio.lab2.groupD.heuristics.ClosestFirstInsert;
+import ch.heig.sio.lab2.groupD.heuristics.FarthestFirstInsert;
+import ch.heig.sio.lab2.groupD.heuristics.RandomInsert;
 import ch.heig.sio.lab2.tsp.RandomTour;
 import com.formdev.flatlaf.FlatLightLaf;
+
 
 public final class Gui {
   public static void main(String[] args) {
     ObservableTspConstructiveHeuristic[] constructiveHeuristics = {
         new HeuristicComboItem.Constructive("Random tour", new RandomTour()),
-        // Add the constructive heuristics
+            new HeuristicComboItem.Constructive("Closest First", new ClosestFirstInsert()),
+            new HeuristicComboItem.Constructive("Farthest First", new FarthestFirstInsert()),
+            new HeuristicComboItem.Constructive("Random Insert", new RandomInsert())
     };
 
     ObservableTspImprovementHeuristic[] improvementHeuristics = {
