@@ -3,6 +3,7 @@ package ch.heig.sio.lab2.groupD;
 import ch.heig.sio.lab2.display.ObservableTspConstructiveHeuristic;
 import ch.heig.sio.lab2.display.ObservableTspImprovementHeuristic;
 import ch.heig.sio.lab2.display.TspHeuristicObserver;
+import ch.heig.sio.lab2.groupD.Utilities.IteratorObserver;
 import ch.heig.sio.lab2.groupD.Utilities.OptimizedLinkedList;
 import ch.heig.sio.lab2.tsp.Edge;
 import ch.heig.sio.lab2.tsp.TspData;
@@ -27,11 +28,6 @@ Pour le changement de sens ne pas s'embêter pour l'instant avec une structure d
  */
 public class Improvement2Opt implements ObservableTspImprovementHeuristic {
 
-    private int nbOfIteration = 0;
-
-    Improvement2Opt(int nbOfIteration){
-        this.nbOfIteration = nbOfIteration;
-    }
 
     @Override
     public TspTour computeTour(TspTour initialTour,TspHeuristicObserver observer) {
@@ -96,18 +92,11 @@ public class Improvement2Opt implements ObservableTspImprovementHeuristic {
                 }
             }
 
-            nbOfIteration--;
-
             //Faire un iterator qui prend la tournée et qui pourra créer les arrête quand on appelle next à la volée -> afin de ne pas être appelé si pas besoin
             //Update the observer TODO LE FAIRE A LA
-            ArrayList<Edge> edges = new ArrayList<>();
-            for(int i = 0; i < tourNbVertices; ++i){
-                edges.add(new Edge(tourCopy[i],tourCopy[(i+1) % tourNbVertices]));
-            }
+            observer.update(new IteratorObserver(tourCopy));
 
-            observer.update(edges.iterator());
-
-        } while (oldTourLength != newTourLength || nbOfIteration > 0);
+        } while (oldTourLength != newTourLength);
 
 
         return new TspTour(tourData, tourCopy, newTourLength);

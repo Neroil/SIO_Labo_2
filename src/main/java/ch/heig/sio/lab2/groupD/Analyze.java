@@ -4,10 +4,13 @@ import ch.heig.sio.lab2.display.HeuristicComboItem;
 import ch.heig.sio.lab2.display.ObservableTspConstructiveHeuristic;
 import ch.heig.sio.lab2.groupD.heuristics.ClosestFirstInsert;
 import ch.heig.sio.lab2.groupD.heuristics.FarthestFirstInsert;
+import ch.heig.sio.lab2.groupD.heuristics.GenericConstructiveHeuristic;
 import ch.heig.sio.lab2.groupD.heuristics.RandomInsert;
 import ch.heig.sio.lab2.tsp.RandomTour;
+import ch.heig.sio.lab2.tsp.TspConstructiveHeuristic;
 import ch.heig.sio.lab2.tsp.TspData;
 
+import java.sql.Time;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -39,11 +42,15 @@ public final class Analyze {
 
     //TODO : POUR LES VILLES DE DÉPART DES HEURISTIQUES DISTANCE BASED,
     // FAIRE UNE SECONDE TOURNÉE ALÉATOIRE ET PRENDRE LES CINQUANTES PREMIÈRES VILLES.
-    ObservableTspConstructiveHeuristic[] heuristics = {
-            new HeuristicComboItem.Constructive("Closest First", new ClosestFirstInsert()),
-            new HeuristicComboItem.Constructive("Farthest First", new FarthestFirstInsert()),
-            new HeuristicComboItem.Constructive("Random Tour", new RandomTour())
+   TspConstructiveHeuristic[] heuristics = {
+            new ClosestFirstInsert(),
+            new FarthestFirstInsert(),
+            new RandomTour()
     };
+
+    var opt2 = new Improvement2Opt();
+
+    int numberOfCities = 50;
 
     // Array of files
     String[] files = {"pcb442", "att532", "u574", "pcb1173", "nrw1379", "u1817"};
@@ -59,21 +66,29 @@ public final class Analyze {
       // Open the file and analyze the heuristics
       try {
         TspData data = TspData.fromFile("data/" + file + ".dat");
-        int numberOfCities = data.getNumberOfCities();
 
         System.out.println("\nProcessing dataset: " + file + ".dat (" + numberOfCities + " cities)");
         Map<String, Statistics> statsMap = new LinkedHashMap<>();
 
+        //Get 50 first cities of a random tour
+        var randomTour = new RandomTour();
+        var cities = randomTour.computeTour(data, 0).tour();
+
         // Loop through all the heuristics
-        for (ObservableTspConstructiveHeuristic heuristic : heuristics) {
+        for (var heuristic : heuristics) {
           ArrayList<Long> results = new ArrayList<>();
           long meanValue = 0;
 
           // Loop through all the cities
           for (int i = 0; i < numberOfCities; ++i) {
-            long length = heuristic.computeTour(data, i).length();
-            results.add(length);
-            meanValue += length;
+            var timeBefore = System.currentTimeMillis();
+            var tourHeuristic = heuristic.computeTour(data, cities.get(i));
+            long tour2Opt = opt2.computeTour(tourHeuristic);
+            var timeExec = System.currentTimeMillis() - timeBefore;
+            long length2Opt = tour2Opt.length();
+            long lengthHeuristic = tour.length();
+            results.add(lengthHeuristic);
+            meanValue += lengthHeuristic;
 
             updateProgress(i + 1, numberOfCities, heuristic.toString());
           }
@@ -151,8 +166,8 @@ public final class Analyze {
       System.out.printf("%-" + metricWidth + "s", metric);
       for (Statistics stats : heuristicStats.values()) {
         double value = switch (metric) {
-          case "Max" -> stats.max;
           case "Min" -> stats.min;
+          case "Max" -> stats.max;
           case "Median" -> stats.median;
           case "Mean" -> stats.mean;
           case "Standard Deviation" -> stats.stdDev;
