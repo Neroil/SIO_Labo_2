@@ -1,18 +1,10 @@
 package ch.heig.sio.lab2.groupD;
 
-import ch.heig.sio.lab2.display.ObservableTspConstructiveHeuristic;
 import ch.heig.sio.lab2.display.ObservableTspImprovementHeuristic;
 import ch.heig.sio.lab2.display.TspHeuristicObserver;
 import ch.heig.sio.lab2.groupD.Utilities.IteratorObserver;
-import ch.heig.sio.lab2.groupD.Utilities.OptimizedLinkedList;
-import ch.heig.sio.lab2.tsp.Edge;
 import ch.heig.sio.lab2.tsp.TspData;
-import ch.heig.sio.lab2.tsp.TspImprovementHeuristic;
 import ch.heig.sio.lab2.tsp.TspTour;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /*
 Pour vérifier si un échange est améliorant, il faut prendre les deux arêtes qu'on change et on vérifie si la distance
@@ -62,20 +54,16 @@ public class Improvement2Opt implements ObservableTspImprovementHeuristic {
                     var newDist = tourData.getDistance(tourCopy[i], tourCopy[j]) + tourData.getDistance(tourCopy[secondVertexTo], tourCopy[firstVertexTo]);
 
                     if (newDist < currentDist) {
-                        System.out.println(newDist + ", " + currentDist);
-                        System.out.println();
                         if(newDist < bestDist){
                             bestFirstVertexFrom = i;
                             bestSecondVertexFrom = j;
                             newTourLength = tourLength - currentDist + newDist;
                             bestDist = newDist;
-                            System.out.println("newTourLength :" + newTourLength);
                         }
                     }
                 }
             }
 
-            System.out.println("TourLength update : " + tourLength + ", " + newTourLength);
             if(tourLength > newTourLength){
                 //Mettre à jour le tour en entier
                 tourLength = newTourLength;

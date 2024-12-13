@@ -18,7 +18,9 @@ import static java.util.Collections.max;
 import static java.util.Collections.min;
 
 public final class Analyze {
-  private record Statistics(double max, double min, double median, double mean, double stdDev) {}
+  private record Statistics(double min, double median, double mean,double max, double stdDev,
+                            double min2opt, double median2opt, double mean2opt,double max2opt, double stdDev2opt,
+                            double meanTime) {}
 
   static final long RANDOM_SEED = 0x134DAE9;
   static final int NUMBER_CITIES = 50;
@@ -83,6 +85,7 @@ public final class Analyze {
         for (var heuristic : heuristics) {
           ArrayList<Long> results = new ArrayList<>();
           ArrayList<Long> resultsWithImprovement = new ArrayList<>();
+
           long meanValue = 0;
           long meanValueWithImprovement = 0;
 
@@ -97,19 +100,24 @@ public final class Analyze {
             var timeExec = System.currentTimeMillis() - timeBefore;
             long length2Opt = tour2Opt.length();
             long lengthHeuristic = tourHeuristic.length();
+
             results.add(lengthHeuristic);
-            resultsWithImprovement.add((length2Opt));
+            resultsWithImprovement.add(length2Opt);
+
             meanValue += lengthHeuristic;
             meanValueWithImprovement += length2Opt;
-            updateProgress(i + 1, NUMBER_CITIES, heuristic.toString());
+            meanValueTime += timeExec;
+
+            updateProgress(i + 1, NUMBER_CITIES, heuristic.getClass().getSimpleName());
           }
 
-          double mean = (double) meanValue / data.getNumberOfCities();
-          double meanImprovement = (double) meanValueWithImprovement / data.getNumberOfCities();
+          double mean = (double) meanValue / NUMBER_CITIES;
+          double meanImprovement = (double) meanValueWithImprovement / NUMBER_CITIES;
           double medianValue = median(results);
           double medianValueImprovement = median(resultsWithImprovement);
           double stdDevValue = stdDev(results, mean);
           double stdDevValueImprovement = stdDev(resultsWithImprovement, meanImprovement);
+          double meanTime = (double) meanValueTime / NUMBER_CITIES;
 
           stats.put(heuristic.toString(), new Statistics(
                   max(results),
@@ -160,7 +168,7 @@ public final class Analyze {
    */
   private static void printStatistics(String filename, Map<String, Statistics> heuristicStats, long optimalDistance) {
     int metricWidth = 20;
-    int valueWidth = 18;
+    int valueWidth = 25;
 
     // Print header
     System.out.println("\nAnalysis for dataset: " + filename);
@@ -175,7 +183,10 @@ public final class Analyze {
     System.out.println("-".repeat(metricWidth + (valueWidth * heuristicStats.size())));
 
     // Print statistics
-    String[] metrics = {"Max", "Min", "Median", "Mean", "Standard Deviation", "Performance (%)"};
+    String[] metrics = {"Min", "Median", "Mean", "Max", "StdDev", "Performance (%)",
+                        "Min2opt", "Median2opt", "Mean2opt", "Max2opt", "StdDev2opt",
+                        "MeanTime (ms)"};
+
     DecimalFormat df = new DecimalFormat("#,##0.00");
 
     for (String metric : metrics) {
@@ -183,10 +194,16 @@ public final class Analyze {
       for (Statistics stats : heuristicStats.values()) {
         double value = switch (metric) {
           case "Min" -> stats.min;
-          case "Max" -> stats.max;
           case "Median" -> stats.median;
           case "Mean" -> stats.mean;
-          case "Standard Deviation" -> stats.stdDev;
+          case "Max" -> stats.max;
+          case "StdDev" -> stats.stdDev;
+          case "Min2opt" -> stats.min2opt;
+          case "Median2opt" -> stats.median2opt;
+          case "Mean2opt" -> stats.mean2opt;
+          case "Max2opt" -> stats.max2opt;
+          case "StdDev2opt" -> stats.stdDev2opt;
+          case "MeanTime (ms)" -> stats.meanTime;
           case "Performance (%)" -> (stats.mean / optimalDistance) * 100;
           default -> 0.0;
         };
