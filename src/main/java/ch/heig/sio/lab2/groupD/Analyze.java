@@ -10,6 +10,7 @@ import ch.heig.sio.lab2.tsp.RandomTour;
 import ch.heig.sio.lab2.tsp.TspConstructiveHeuristic;
 import ch.heig.sio.lab2.tsp.TspData;
 
+import java.awt.font.NumericShaper;
 import java.sql.Time;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -88,7 +89,7 @@ public final class Analyze {
 
           long meanValue = 0;
           long meanValueWithImprovement = 0;
-
+          long meanValueTime = 0;
           // Loop through all the cities
           for (int i = 0; i < NUMBER_CITIES; ++i) {
 
@@ -98,6 +99,7 @@ public final class Analyze {
             //Compute the (hopefully) improved tour
             var tour2Opt = opt2.computeTour(tourHeuristic);
             var timeExec = System.currentTimeMillis() - timeBefore;
+
             long length2Opt = tour2Opt.length();
             long lengthHeuristic = tourHeuristic.length();
 
@@ -119,14 +121,19 @@ public final class Analyze {
           double stdDevValueImprovement = stdDev(resultsWithImprovement, meanImprovement);
           double meanTime = (double) meanValueTime / NUMBER_CITIES;
 
-          stats.put(heuristic.toString(), new Statistics(
-                  max(results),
+          stats.put(heuristic.getClass().getSimpleName(), new Statistics(
                   min(results),
                   medianValue,
                   mean,
-                  stdDevValue
+                  max(results),
+                  stdDevValue,
+                  min(resultsWithImprovement),
+                  medianValueImprovement,
+                  meanImprovement,
+                  max(resultsWithImprovement),
+                  stdDevValueImprovement,
+                  meanTime
           ));
-
         }
 
         printStatistics(file, stats, optimalDistances[fileIndex]);
