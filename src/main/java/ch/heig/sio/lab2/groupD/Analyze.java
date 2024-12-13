@@ -20,6 +20,10 @@ import static java.util.Collections.min;
 public final class Analyze {
   private record Statistics(double max, double min, double median, double mean, double stdDev) {}
 
+  static final long RANDOM_SEED = 0x134DAE9;
+  static final int NUMBER_CITIES = 50;
+
+
   public static void main(String[] args) {
     // TODO
     //  - Renommer le package ;
@@ -42,15 +46,15 @@ public final class Analyze {
 
     //TODO : POUR LES VILLES DE DÉPART DES HEURISTIQUES DISTANCE BASED,
     // FAIRE UNE SECONDE TOURNÉE ALÉATOIRE ET PRENDRE LES CINQUANTES PREMIÈRES VILLES.
+
+
    TspConstructiveHeuristic[] heuristics = {
             new ClosestFirstInsert(),
             new FarthestFirstInsert(),
-            new RandomTour()
+            new RandomTour(RANDOM_SEED)
     };
 
     var opt2 = new Improvement2Opt();
-
-    int numberOfCities = 50;
 
     // Array of files
     String[] files = {"pcb442", "att532", "u574", "pcb1173", "nrw1379", "u1817"};
@@ -67,46 +71,58 @@ public final class Analyze {
       try {
         TspData data = TspData.fromFile("data/" + file + ".dat");
 
-        System.out.println("\nProcessing dataset: " + file + ".dat (" + numberOfCities + " cities)");
-        Map<String, Statistics> statsMap = new LinkedHashMap<>();
+        System.out.println("\nProcessing dataset: " + file + ".dat (" + NUMBER_CITIES + " cities)");
+        Map<String, Statistics> stats = new LinkedHashMap<>();
+        Map<String, Statistics> statsImproved = new LinkedHashMap<>();
 
         //Get 50 first cities of a random tour
-        var randomTour = new RandomTour();
+        var randomTour = new RandomTour(RANDOM_SEED);
         var cities = randomTour.computeTour(data, 0).tour();
 
         // Loop through all the heuristics
         for (var heuristic : heuristics) {
           ArrayList<Long> results = new ArrayList<>();
+          ArrayList<Long> resultsWithImprovement = new ArrayList<>();
           long meanValue = 0;
+          long meanValueWithImprovement = 0;
 
           // Loop through all the cities
-          for (int i = 0; i < numberOfCities; ++i) {
+          for (int i = 0; i < NUMBER_CITIES; ++i) {
+
             var timeBefore = System.currentTimeMillis();
+            //Compute the initial tour
             var tourHeuristic = heuristic.computeTour(data, cities.get(i));
-            long tour2Opt = opt2.computeTour(tourHeuristic);
+            //Compute the (hopefully) improved tour
+            var tour2Opt = opt2.computeTour(tourHeuristic);
             var timeExec = System.currentTimeMillis() - timeBefore;
             long length2Opt = tour2Opt.length();
-            long lengthHeuristic = tour.length();
+            long lengthHeuristic = tourHeuristic.length();
             results.add(lengthHeuristic);
+            resultsWithImprovement.add((length2Opt));
             meanValue += lengthHeuristic;
-
-            updateProgress(i + 1, numberOfCities, heuristic.toString());
+            meanValueWithImprovement += length2Opt;
+            updateProgress(i + 1, NUMBER_CITIES, heuristic.toString());
           }
 
           double mean = (double) meanValue / data.getNumberOfCities();
+          double meanImprovement = (double) meanValueWithImprovement / data.getNumberOfCities();
           double medianValue = median(results);
+          double medianValueImprovement = median(resultsWithImprovement);
           double stdDevValue = stdDev(results, mean);
+          double stdDevValueImprovement = stdDev(resultsWithImprovement, meanImprovement);
 
-          statsMap.put(heuristic.toString(), new Statistics(
+          stats.put(heuristic.toString(), new Statistics(
                   max(results),
                   min(results),
                   medianValue,
                   mean,
                   stdDevValue
           ));
+
         }
 
-        printStatistics(file, statsMap, optimalDistances[fileIndex]);
+        printStatistics(file, stats, optimalDistances[fileIndex]);
+
 
       } catch (Exception e) {
         System.err.println("There was an error in processing " + file + ".dat");
