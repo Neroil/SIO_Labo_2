@@ -5,8 +5,15 @@ import ch.heig.sio.lab2.tsp.Edge;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * Iterateur utilisé pour parcourir un tableau de villes et créer des arêtes à la volée
+ * On l'utilise pour que l'observateur puisse créer les arêtes seulement si besoin
+ *
+ * @author Edwin Häffner
+ * @author Arthur Junod
+ */
 public class IteratorObserver implements Iterator<Edge> {
-    //Faire un iterator qui prend la tournée et qui pourra créer les arrête quand on appelle next à la volée -> afin de ne pas être appelé si pas besoin
+
     public IteratorObserver(int[] tour){
         this.tour = tour;
         this.length = tour.length;
