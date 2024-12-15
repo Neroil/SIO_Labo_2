@@ -105,7 +105,6 @@ public final class Analyze {
 
         System.out.println("\nProcessing dataset: " + file + ".dat (" + data.getNumberOfCities() + " cities)");
         Map<String, Statistics> stats = new LinkedHashMap<>();
-        Map<String, Statistics> statsImproved = new LinkedHashMap<>();
 
         // Ce RandomTour est utilisé pour générer les NUMBER_CITIES villes de départ pour les heuristiques qui en ont besoin.
         var randomTour = new RandomTour(RANDOM_SEED);

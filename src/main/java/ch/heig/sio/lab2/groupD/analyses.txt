@@ -1,0 +1,121 @@
+Analyzing heuristics...
+
+Analysis for dataset: pcb442
+Optimal tour length: 50’778
+Metric              ClosestFirstInsert                 FarthestFirstInsert                RandomTour
+-----------------------------------------------------------------------------------------------------------------------------
+Min                 59’368.00 (116.92%)                56’016.00 (110.32%)                727’438.00 (1’432.58%)
+Median              60’362.50 (118.88%)                57’266.50 (112.78%)                770’826.00 (1’518.03%)
+Mean                60’385.48 (118.92%)                57’416.56 (113.07%)                773’247.40 (1’522.80%)
+Max                 61’351.00 (120.82%)                59’875.00 (117.92%)                797’408.00 (1’570.38%)
+StdDev              510.08                             797.87                             15’306.18
+Min2opt             54’373.00 (107.08%)                54’914.00 (108.15%)                53’916.00 (106.18%)
+Median2opt          55’439.50 (109.18%)                56’671.50 (111.61%)                56’326.50 (110.93%)
+Mean2opt            55’294.62 (108.89%)                56’727.72 (111.72%)                56’286.34 (110.85%)
+Max2opt             55’969.00 (110.22%)                59’275.00 (116.73%)                58’183.00 (114.58%)
+StdDev2opt          394.39                             882.80                             880.88
+MeanTime (ms)       20.38                              5.32                               118.92
+
+The percentage next to the values are an indication of the performance of the heuristic.
+The performance is a percentage of the distance compared to the optimal distance.
+It should never be below 100% and the closer to 100% the better.
+
+Analysis for dataset: att532
+Optimal tour length: 86’729
+Metric              ClosestFirstInsert                 FarthestFirstInsert                RandomTour
+-----------------------------------------------------------------------------------------------------------------------------
+Min                 106’739.00 (123.07%)               92’951.00 (107.17%)                1’561’870.00 (1’800.86%)
+Median              107’501.50 (123.95%)               94’860.00 (109.38%)                1’615’224.00 (1’862.38%)
+Mean                107’594.38 (124.06%)               94’992.80 (109.53%)                1’618’034.48 (1’865.62%)
+Max                 108’738.00 (125.38%)               97’545.00 (112.47%)                1’686’663.00 (1’944.75%)
+StdDev              488.13                             1’145.39                           32’356.02
+Min2opt             96’219.00 (110.94%)                92’236.00 (106.35%)                92’118.00 (106.21%)
+Median2opt          97’360.50 (112.26%)                93’721.00 (108.06%)                94’491.50 (108.95%)
+Mean2opt            97’252.58 (112.13%)                93’849.00 (108.21%)                94’538.30 (109.00%)
+Max2opt             98’476.00 (113.54%)                96’582.00 (111.36%)                96’879.00 (111.70%)
+StdDev2opt          655.61                             1’013.45                           1’008.76
+MeanTime (ms)       40.80                              10.50                              226.80
+
+The percentage next to the values are an indication of the performance of the heuristic.
+The performance is a percentage of the distance compared to the optimal distance.
+It should never be below 100% and the closer to 100% the better.
+
+Analysis for dataset: u574
+Optimal tour length: 36’905
+Metric              ClosestFirstInsert                 FarthestFirstInsert                RandomTour
+-----------------------------------------------------------------------------------------------------------------------------
+Min                 45’013.00 (121.97%)                39’773.00 (107.77%)                657’710.00 (1’782.17%)
+Median              45’509.50 (123.32%)                40’767.00 (110.46%)                684’227.00 (1’854.02%)
+Mean                45’511.06 (123.32%)                40’786.84 (110.52%)                685’301.62 (1’856.93%)
+Max                 46’071.00 (124.84%)                42’027.00 (113.88%)                708’046.00 (1’918.56%)
+StdDev              315.69                             438.84                             11’018.04
+Min2opt             40’277.00 (109.14%)                39’253.00 (106.36%)                39’553.00 (107.18%)
+Median2opt          40’718.50 (110.33%)                40’296.50 (109.19%)                40’431.00 (109.55%)
+Mean2opt            40’705.26 (110.30%)                40’264.20 (109.10%)                40’483.56 (109.70%)
+Max2opt             41’078.00 (111.31%)                41’247.00 (111.77%)                41’666.00 (112.90%)
+StdDev2opt          167.39                             433.25                             434.73
+MeanTime (ms)       48.04                              12.60                              287.80
+
+The percentage next to the values are an indication of the performance of the heuristic.
+The performance is a percentage of the distance compared to the optimal distance.
+It should never be below 100% and the closer to 100% the better.
+
+Analysis for dataset: pcb1173
+Optimal tour length: 56’892
+Metric              ClosestFirstInsert                 FarthestFirstInsert                RandomTour
+-----------------------------------------------------------------------------------------------------------------------------
+Min                 70’932.00 (124.68%)                64’667.00 (113.67%)                1’379’308.00 (2’424.43%)
+Median              72’446.50 (127.34%)                65’841.00 (115.73%)                1’404’273.50 (2’468.31%)
+Mean                72’294.40 (127.07%)                65’780.50 (115.62%)                1’406’354.50 (2’471.97%)
+Max                 72’739.00 (127.85%)                67’238.00 (118.19%)                1’436’430.00 (2’524.84%)
+StdDev              411.21                             543.26                             16’610.36
+Min2opt             62’409.00 (109.70%)                63’365.00 (111.38%)                62’846.00 (110.47%)
+Median2opt          63’061.00 (110.84%)                64’439.50 (113.27%)                64’032.50 (112.55%)
+Mean2opt            63’052.46 (110.83%)                64’535.72 (113.44%)                64’113.06 (112.69%)
+Max2opt             63’945.00 (112.40%)                65’715.00 (115.51%)                65’441.00 (115.03%)
+StdDev2opt          345.01                             524.40                             608.33
+MeanTime (ms)       458.28                             133.08                             3’374.56
+
+The percentage next to the values are an indication of the performance of the heuristic.
+The performance is a percentage of the distance compared to the optimal distance.
+It should never be below 100% and the closer to 100% the better.
+
+Analysis for dataset: nrw1379
+Optimal tour length: 56’638
+Metric              ClosestFirstInsert                 FarthestFirstInsert                RandomTour
+-----------------------------------------------------------------------------------------------------------------------------
+Min                 69’097.00 (122.00%)                62’192.00 (109.81%)                1’391’638.00 (2’457.07%)
+Median              69’459.50 (122.64%)                62’867.50 (111.00%)                1’423’841.50 (2’513.93%)
+Mean                69’462.54 (122.64%)                62’902.60 (111.06%)                1’424’603.94 (2’515.28%)
+Max                 69’746.00 (123.14%)                63’747.00 (112.55%)                1’463’522.00 (2’583.99%)
+StdDev              148.74                             350.23                             17’106.34
+Min2opt             63’585.00 (112.27%)                61’517.00 (108.61%)                61’803.00 (109.12%)
+Median2opt          63’912.50 (112.84%)                62’110.00 (109.66%)                62’832.50 (110.94%)
+Mean2opt            63’914.38 (112.85%)                62’129.60 (109.70%)                62’834.20 (110.94%)
+Max2opt             64’214.00 (113.38%)                63’171.00 (111.53%)                63’610.00 (112.31%)
+StdDev2opt          148.23                             316.09                             417.34
+MeanTime (ms)       791.38                             214.16                             6’901.34
+
+The percentage next to the values are an indication of the performance of the heuristic.
+The performance is a percentage of the distance compared to the optimal distance.
+It should never be below 100% and the closer to 100% the better.
+
+Analysis for dataset: u1817
+Optimal tour length: 57’201
+Metric              ClosestFirstInsert                 FarthestFirstInsert                RandomTour
+-----------------------------------------------------------------------------------------------------------------------------
+Min                 70’227.00 (122.77%)                67’682.00 (118.32%)                2’073’678.00 (3’625.25%)
+Median              70’938.50 (124.02%)                68’921.00 (120.49%)                2’120’399.00 (3’706.93%)
+Mean                70’873.08 (123.90%)                68’922.26 (120.49%)                2’122’637.46 (3’710.84%)
+Max                 71’358.00 (124.75%)                70’479.00 (123.21%)                2’200’663.00 (3’847.25%)
+StdDev              255.05                             616.04                             25’193.49
+Min2opt             63’748.00 (111.45%)                66’912.00 (116.98%)                64’636.00 (113.00%)
+Median2opt          64’017.50 (111.92%)                67’702.50 (118.36%)                65’966.50 (115.32%)
+Mean2opt            64’044.92 (111.96%)                67’693.66 (118.34%)                65’981.62 (115.35%)
+Max2opt             64’409.00 (112.60%)                68’897.00 (120.45%)                67’866.00 (118.64%)
+StdDev2opt          144.49                             487.37                             632.62
+MeanTime (ms)       1’975.28                           636.72                             26’757.16
+
+The percentage next to the values are an indication of the performance of the heuristic.
+The performance is a percentage of the distance compared to the optimal distance.
+It should never be below 100% and the closer to 100% the better.
