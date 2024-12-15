@@ -77,7 +77,7 @@ public final class Analyze {
       Dotenv dotenv = Dotenv.configure().load();
       RANDOM_SEED = Long.parseLong(dotenv.get("TSP_SEED"),16);
     } catch (Exception e) {
-      System.err.println("Error loading environment variables, make sure you have a .env file with TSP_SEED set. Using default value.");
+      System.err.println("Error loading environment variables, make sure you have a .env file with TSP_SEED set. Using default value of 0x134DAE9.");
       RANDOM_SEED = 0x134DAE9;
     }
 
